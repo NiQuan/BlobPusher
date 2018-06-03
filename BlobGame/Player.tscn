@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://char2.png" type="Texture" id=2]
+[ext_resource path="res://char1.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 8.66696
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Player" type="Area2D"]
+
+position = Vector2( -0.836563, -2.72934 )
+scale = Vector2( 0.859, 0.868765 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Pause" ]
+SPEED = 300
+playerDir = null
+playerVel = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
+
+position = Vector2( 0.148236, 1.47966 )
+scale = Vector2( 4.71649, 4.42937 )
+z_index = 2
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
+
+position = Vector2( 1.13544, 0.561338 )
+z_index = 1
+frames = SubResource( 2 )
+animation = "default"
+_sections_unfolded = [ "Pause", "Transform", "Z Index" ]
+
+[connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
+
+

@@ -1,0 +1,109 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Mob.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Pusher.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Eyes.tscn" type="PackedScene" id=4]
+[ext_resource path="res://IronBlob.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Mother.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Baby.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=8]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=9]
+[ext_resource path="res://MainBackround.png" type="Texture" id=10]
+
+[sub_resource type="Curve2D" id=1]
+
+bake_interval = 5.0
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -30, 620, 0, 0, 0, 0, -30, -30, 0, 0, 0, 0, 1060, -30, 0, 0, 0, 0, 1060, 620, 0, 0, 0, 0, -30, 620 )
+}
+
+[node name="Main" type="Node" index="0"]
+
+script = ExtResource( 1 )
+Mob = ExtResource( 2 )
+Pusher = ExtResource( 3 )
+Eyes = ExtResource( 4 )
+IronBlob = ExtResource( 5 )
+Mother = ExtResource( 6 )
+Baby = ExtResource( 7 )
+
+[node name="MobTimer" type="Timer" parent="." index="0"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="StartTimer" type="Timer" parent="." index="1"]
+
+process_mode = 1
+wait_time = 0.5
+one_shot = true
+autostart = false
+
+[node name="StartPosition" type="Position2D" parent="." index="2"]
+
+position = Vector2( 310, 240 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="MobPath" type="Path2D" parent="." index="3"]
+
+curve = SubResource( 1 )
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath" index="0"]
+
+position = Vector2( -30, 620 )
+rotation = -1.5708
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = true
+lookahead = 4.0
+
+[node name="Player" parent="." index="4" instance=ExtResource( 8 )]
+
+[node name="DespawnTimer" type="Timer" parent="." index="5"]
+
+process_mode = 1
+wait_time = 0.5
+one_shot = false
+autostart = false
+
+[node name="HUD" parent="." index="6" instance=ExtResource( 9 )]
+
+[node name="PusherTimer" type="Timer" parent="." index="7"]
+
+process_mode = 1
+wait_time = 0.2
+one_shot = true
+autostart = false
+
+[node name="MainBackround" type="Sprite" parent="." index="8"]
+
+position = Vector2( 512.728, 300.034 )
+scale = Vector2( 1.00139, 1 )
+texture = ExtResource( 10 )
+
+[node name="EnemyAI" type="Timer" parent="." index="9"]
+
+process_mode = 1
+wait_time = 0.51
+one_shot = false
+autostart = true
+
+[connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
+
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
+
+[connection signal="hit" from="Player" to="." method="game_over"]
+
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_DespawnTimer_timeout"]
+
+[connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
+
+[connection signal="timeout" from="EnemyAI" to="." method="_on_EnemyAI_timeout"]
+
+
