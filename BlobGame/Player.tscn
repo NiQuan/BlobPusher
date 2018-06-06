@@ -18,7 +18,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" index="0"]
 
 position = Vector2( -0.836563, -2.72934 )
 scale = Vector2( 0.859, 0.868765 )
